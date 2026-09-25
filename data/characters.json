@@ -1,0 +1,31 @@
+{
+  "miko": {
+    "name": "みこ",
+    "hp": 5,
+    "w": 12,
+    "h": 24,
+    "speed": 1.6,
+    "jump": 5.2,
+    "gravity": 0.28,
+    "maxFall": 5,
+    "jumpCut": 0.45,
+    "coyote": 6,
+    "inputBuffer": 6,
+    "invincible": 60,
+    "ranged": { "type": "ofuda", "interval": 18, "power": 1, "speed": 5, "w": 6, "h": 3 },
+    "melee": {
+      "type": "gohei",
+      "range": 22,
+      "height": 30,
+      "power": 3,
+      "active": 8,
+      "cooldown": 20,
+      "reflect": true,
+      "reflectSpeed": 1.8,
+      "reflectPower": 3,
+      "hitstop": 3
+    },
+    "special": "ofuda_storm",
+    "sprite": "miko.png"
+  }
+}

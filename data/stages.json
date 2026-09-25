@@ -1,0 +1,15 @@
+{
+  "proto": {
+    "name": "조작감 테스트",
+    "bg": "#3a3947",
+    "scrollSpeed": 0.35,
+    "groundY": 156,
+    "segment": 400,
+    "platforms": [
+      { "x": 90, "y": 122, "w": 48 },
+      { "x": 180, "y": 90, "w": 40 },
+      { "x": 270, "y": 122, "w": 56 }
+    ],
+    "spawn": { "enemy": "dummy", "first": 90, "interval": 110, "ys": [140, 104, 64] }
+  }
+}
