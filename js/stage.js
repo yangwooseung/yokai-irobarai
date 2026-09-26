@@ -1,9 +1,13 @@
 // 자동 스크롤, 발판 배치, 적 스폰. 수치는 stages.json
 import { VIEW_W } from './util.js';
 import { createEnemy } from './enemy.js';
+import { createBackground, drawBackground } from './background.js';
 
 export function createStage(def) {
-  return { def, groundY: def.groundY, platforms: [], nextSeg: 0, spawnT: def.spawn.first };
+  return {
+    def, groundY: def.groundY, platforms: [], nextSeg: 0, spawnT: def.spawn.first,
+    bg: createBackground(def.theme, def.groundY),
+  };
 }
 
 export function updateStage(st, G) {
@@ -21,32 +25,26 @@ export function updateStage(st, G) {
   if (--st.spawnT <= 0) {
     st.spawnT = sp.interval;
     const y = sp.ys[Math.floor(Math.random() * sp.ys.length)];
-    G.enemies.push(createEnemy(G.data.yokai[sp.enemy], G.cam + VIEW_W + 2, y));
+    G.enemies.push(createEnemy(G.data.yokai[sp.enemy], G.sprites.yokai[sp.enemy], G.cam + VIEW_W + 2, y));
   }
 }
 
 export function drawStage(ctx, st, cam) {
-  const d = st.def;
-  ctx.fillStyle = d.bg;
-  ctx.fillRect(0, 0, VIEW_W, 180);
+  const th = st.def.theme;
+  drawBackground(ctx, st.bg, cam, st.groundY);
 
-  // 원경 기둥 (스크롤 체감용 패럴랙스)
-  ctx.fillStyle = '#44435a';
-  for (let x = -((cam * 0.5) % 48); x < VIEW_W; x += 48) ctx.fillRect(Math.round(x), 30, 6, st.groundY - 30);
-
-  // 지면
-  ctx.fillStyle = '#4b4a3f';
-  ctx.fillRect(0, st.groundY, VIEW_W, 180 - st.groundY);
-  ctx.fillStyle = '#6a6857';
-  ctx.fillRect(0, st.groundY, VIEW_W, 2);
-  for (let wx = Math.floor(cam / 16) * 16; wx < cam + VIEW_W; wx += 16) ctx.fillRect(Math.round(wx - cam), st.groundY + 6, 2, 2);
-
-  // 발판
+  // 발판: 나무 판자
   for (const p of st.platforms) {
     const x = Math.round(p.x - cam);
-    ctx.fillStyle = '#6b5a45';
+    ctx.fillStyle = th.plankShade;
     ctx.fillRect(x, p.y, p.w, 6);
-    ctx.fillStyle = '#8c7659';
-    ctx.fillRect(x, p.y, p.w, 1);
+    ctx.fillStyle = th.plank;
+    ctx.fillRect(x + 1, p.y, p.w - 2, 4);
+    ctx.fillStyle = th.plankLight;
+    ctx.fillRect(x + 1, p.y, p.w - 2, 1);
+    ctx.fillStyle = th.plankShade;
+    for (let i = 12; i < p.w - 4; i += 12) ctx.fillRect(x + i, p.y + 1, 1, 3);
+    ctx.fillRect(x + 3, p.y + 6, 2, 3); // 받침 그림자
+    ctx.fillRect(x + p.w - 5, p.y + 6, 2, 3);
   }
 }

@@ -1,7 +1,6 @@
 {
   "proto": {
-    "name": "조작감 테스트",
-    "bg": "#3a3947",
+    "name": "신사 참도 (테스트)",
     "scrollSpeed": 0.35,
     "groundY": 156,
     "segment": 400,
@@ -10,6 +9,32 @@
       { "x": 180, "y": 90, "w": 40 },
       { "x": 270, "y": 122, "w": 56 }
     ],
-    "spawn": { "enemy": "dummy", "first": 90, "interval": 110, "ys": [140, 104, 64] }
+    "spawn": { "enemy": "chochin", "first": 90, "interval": 110, "ys": [140, 104, 64] },
+    "theme": {
+      "sky": ["#232133", "#2c2940", "#36324b", "#433c57", "#524962", "#62586d"],
+      "moon": "#d6d0dd",
+      "moonShade": "#bdb5c6",
+      "moonGlow": "#4a4560",
+      "mountainFar": "#403d55",
+      "mountainNear": "#36344a",
+      "tree": "#2b2f3b",
+      "treeLight": "#3a3f4c",
+      "treeTrunk": "#24222b",
+      "torii": "#7a4b52",
+      "toriiDark": "#5e3a42",
+      "toriiShade": "#643e46",
+      "stone": "#5c5a64",
+      "stoneShade": "#46444e",
+      "lanternLight": "#7c7466",
+      "mist": "rgba(190,180,215,0.10)",
+      "ground": "#56524c",
+      "groundShade": "#45423d",
+      "groundLine": "#76716a",
+      "plank": "#7a6550",
+      "plankLight": "#9a8468",
+      "plankShade": "#4f4033",
+      "toriiX": [120, 440],
+      "lanternX": [40, 232, 330, 540, 606]
+    }
   }
 }

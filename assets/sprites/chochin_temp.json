@@ -1,0 +1,56 @@
+{
+  "note": "提灯おばけ 임시 도트. 원래 색으로 그리고, 안개 톤·흰 번쩍은 코드에서 자동 생성한다.",
+  "w": 16,
+  "h": 16,
+  "rate": 14,
+  "palette": {
+    "k": "#2b1a1f",
+    "c": "#3b2b2b",
+    "C": "#6e5040",
+    "y": "#ffe6a8",
+    "Y": "#e8b870",
+    "o": "#d9804a",
+    "w": "#ffffff",
+    "e": "#2a2340",
+    "m": "#7a1f2f",
+    "t": "#ff6b8a"
+  },
+  "frames": [
+    [
+      "....kkkkkkkk....",
+      "....kcCCcccck...",
+      "..kkkkkkkkkkkk..",
+      ".kyyyyyyyyyyyyk.",
+      ".kooooooooooook.",
+      "kyywwwwyyyyyyyYk",
+      "kywweewwyyyyyyYk",
+      "kywweewwyyyyyyYk",
+      "kyywwwwyyyyyyyYk",
+      ".kooooooooooook.",
+      "kyyyymmmmyyyyyYk",
+      "kyyymtttmyyyyyYk",
+      ".kyytttyyyyyyYk.",
+      "..kkttkkkkkkkk..",
+      "...kttkcCccck...",
+      "....kk.kkkkkk..."
+    ],
+    [
+      "....kkkkkkkk....",
+      "....kcCCcccck...",
+      "..kkkkkkkkkkkk..",
+      ".kyyyyyyyyyyyyk.",
+      ".kooooooooooook.",
+      "kyywwwwyyyyyyyYk",
+      "kywweewwyyyyyyYk",
+      "kywweewwyyyyyyYk",
+      "kyywwwwyyyyyyyYk",
+      ".kooooooooooook.",
+      "kyyyymmmmyyyyyYk",
+      "kyyymtttmyyyyyYk",
+      ".kyytttyyyyyyYk.",
+      "..kkttkkkkkkkk..",
+      "..kttkkcCccck...",
+      "..kk...kkkkkk..."
+    ]
+  ]
+}

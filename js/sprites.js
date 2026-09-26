@@ -32,6 +32,47 @@ export function buildSpriteSet(def) {
   return { w: def.w, h: def.h, ax: def.ax, anims };
 }
 
+// 원본 색 캔버스에서 픽셀 단위로 색을 바꾼 사본을 만든다
+function recolor(src, fn) {
+  const cv = document.createElement('canvas');
+  cv.width = src.width;
+  cv.height = src.height;
+  const c = cv.getContext('2d');
+  c.drawImage(src, 0, 0);
+  const img = c.getImageData(0, 0, cv.width, cv.height);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    if (!d[i + 3]) continue;
+    const [r, g, b] = fn(d[i], d[i + 1], d[i + 2]);
+    d[i] = r; d[i + 1] = g; d[i + 2] = b;
+  }
+  c.putImageData(img, 0, 0);
+  return cv;
+}
+
+// 검은 안개에 물든 톤: 채도 제거 + 어둡게 + 보랏빛
+const fogTone = (r, g, b) => {
+  const l = (r * 0.3 + g * 0.59 + b * 0.11) * 0.55;
+  return [l * 0.95 + 14, l * 0.9 + 8, l * 1.05 + 26];
+};
+const whiteTone = () => [255, 255, 255];
+
+// 요괴처럼 프레임만 있는 스프라이트: 원래 색 / 안개 톤 / 흰 번쩍 3벌
+export function buildSimpleSprite(def) {
+  const frames = def.frames.map(rows => {
+    const cv = document.createElement('canvas');
+    cv.width = def.w;
+    cv.height = def.h;
+    paint(cv.getContext('2d'), rows, def.palette, 0);
+    return { color: cv, fog: recolor(cv, fogTone), white: recolor(cv, whiteTone) };
+  });
+  return { w: def.w, h: def.h, rate: def.rate, frames };
+}
+
+export function simpleFrame(set, t) {
+  return set.frames[Math.floor(t / set.rate) % set.frames.length];
+}
+
 export function spriteFrame(set, anim, t) {
   const a = set.anims[anim];
   return a.frames[Math.floor(t / a.rate) % a.frames.length];

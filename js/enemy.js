@@ -1,8 +1,9 @@
 // 요괴 행동. 수치는 yokai.json
 import { VIEW_W } from './util.js';
+import { simpleFrame } from './sprites.js';
 
-export function createEnemy(def, x, y) {
-  return { def, x, y, baseY: y, w: def.w, h: def.h, hp: def.hp, t: 0, shootT: def.shootDelay, flash: 0, dead: false };
+export function createEnemy(def, sprite, x, y) {
+  return { def, sprite, x, y, baseY: y, w: def.w, h: def.h, hp: def.hp, t: 0, shootT: def.shootDelay, flash: 0, dead: false };
 }
 
 export function updateEnemy(e, G) {
@@ -37,13 +38,19 @@ function shoot(e, G) {
   G.shots.push({ kind: 'orb', owner: 'enemy', x: cx, y: cy, r: d.bulletR, vx, vy, power: 1 });
 }
 
+const MIST = 'rgba(40,20,60,.55)';
+
 export function drawEnemy(ctx, e, cam) {
   const x = Math.round(e.x - cam);
   const y = Math.round(e.y);
-  ctx.fillStyle = e.flash > 0 ? '#ffffff' : e.def.fogColor;
-  ctx.fillRect(x, y, e.w, e.h);
-  ctx.fillStyle = 'rgba(0,0,0,.35)'; // 안개 테두리
-  ctx.fillRect(x, y + e.h - 3, e.w, 3);
-  ctx.fillStyle = '#1b1b22'; // 눈
-  ctx.fillRect(x + 3, y + 5, 3, 3);
+  const f = simpleFrame(e.sprite, e.t);
+
+  // 몸에 휘감긴 검은 안개
+  ctx.fillStyle = MIST;
+  for (let i = 0; i < 4; i++) {
+    const a = e.t * 0.04 + i * 1.57;
+    const rise = ((e.t + i * 11) % 40) / 40;
+    ctx.fillRect(Math.round(x + e.w / 2 + Math.cos(a) * 9), Math.round(y + e.h - rise * e.h - 1), 2, 2);
+  }
+  ctx.drawImage(e.flash > 0 ? f.white : f.fog, x, y);
 }

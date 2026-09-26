@@ -12,7 +12,7 @@
     "coyote": 6,
     "inputBuffer": 6,
     "invincible": 60,
-    "ranged": { "type": "ofuda", "interval": 18, "power": 1, "speed": 5, "w": 6, "h": 3, "muzzleY": 12 },
+    "ranged": { "type": "ofuda", "interval": 18, "power": 1, "speed": 5, "w": 7, "h": 3, "muzzleY": 12 },
     "melee": {
       "type": "gohei",
       "range": 22,

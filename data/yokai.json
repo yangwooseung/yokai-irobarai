@@ -1,18 +1,18 @@
 {
-  "dummy": {
-    "name": "ダミー",
+  "chochin": {
+    "name": "提灯おばけ",
     "hp": 3,
     "w": 16,
     "h": 16,
     "speed": 0.3,
     "bob": 6,
-    "fogColor": "#6b6b75",
-    "color": "#4fd1c5",
+    "color": "#ffb347",
     "shootDelay": 40,
     "shootInterval": 110,
     "bulletSpeed": 1.3,
     "bulletR": 3,
     "aim": true,
-    "purifyGoal": 25
+    "purifyGoal": 25,
+    "spriteSet": "assets/sprites/chochin_temp.json"
   }
 }
