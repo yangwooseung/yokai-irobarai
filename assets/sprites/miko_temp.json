@@ -1,0 +1,189 @@
+{
+  "note": "임시 도트 (Gemini 시안 참고). 최종본은 Aseprite PNG로 교체 예정. 파츠(머리/상체/하체)를 조합해 프레임을 만든다.",
+  "w": 18,
+  "h": 30,
+  "ax": 11,
+  "palette": {
+    "k": "#2b1a1f",
+    "h": "#231d2b",
+    "H": "#4a3f5c",
+    "r": "#e8384a",
+    "R": "#a3202f",
+    "s": "#ffdcc4",
+    "S": "#f0b89c",
+    "p": "#ff8fa3",
+    "e": "#2a2340",
+    "w": "#ffffff",
+    "W": "#c8cadf",
+    "m": "#e8384a",
+    "M": "#a81d2d",
+    "z": "#8b5a3c"
+  },
+  "partY": {
+    "head": 0,
+    "torso": 16,
+    "legs": 23
+  },
+  "parts": {
+    "head": {
+      "normal": [
+        "....kkk.kkk.......",
+        "...krrrkrrrkkkk...",
+        "..kkRrrRrrRhhhhk..",
+        ".khhkkkkkkkhhhhhk.",
+        "khhhk.khhhhhhhhhhk",
+        "khhhk.khhHhhhhhhhk",
+        "khhhk.khhhhhhshhsk",
+        "khhk..khhhssshsssk",
+        ".khk..khhSssseessk",
+        ".khk..khhSssswessk",
+        ".khk..khhhssseessk",
+        "..kk..khhsssssppsk",
+        "......khsssssssksk",
+        ".......kSsssssssk.",
+        "........kSSSSSSk..",
+        ".........kkkkkk..."
+      ],
+      "hurt": [
+        "....kkk.kkk.......",
+        "...krrrkrrrkkkk...",
+        "..kkRrrRrrRhhhhk..",
+        ".khhkkkkkkkhhhhhk.",
+        "khhhk.khhhhhhhhhhk",
+        "khhhk.khhHhhhhhhhk",
+        "khhhk.khhhhhhshhsk",
+        "khhk..khhhssshsssk",
+        ".khk..khhSsssssssk",
+        ".khk..khhSssskkssk",
+        ".khk..khhhsssWsssk",
+        "..kk..khhsssssppsk",
+        "......khsssssssksk",
+        ".......kSsssssssk.",
+        "........kSSSSSSk..",
+        ".........kkkkkk..."
+      ]
+    },
+    "torso": {
+      "stand": [
+        "......kwwrwwwk....",
+        ".....kwwwrwwwwwk..",
+        "....kwwWwwwwwwWwk.",
+        "....kwwWkwwwwkWwk.",
+        "....krwwkwwwwkwwrk",
+        "....kssmmmmmmmssk.",
+        ".....kkmmmMmmmkk.."
+      ],
+      "swing": [
+        "......kwwrwwwk....",
+        ".....kwwwrwwwwwk..",
+        "....kwwWwwwwwwwwwk",
+        "....kwwWkwwwwwwwrk",
+        "....krwwkwwwwwkssk",
+        "....kssmmmmmmmk...",
+        ".....kkmmmMmmmkk.."
+      ]
+    },
+    "legs": {
+      "stand": [
+        "......kmmmMmmmmk..",
+        ".....kmmmmMmmmmmk.",
+        ".....kmmmMmmMmmmk.",
+        ".....kmmmmkMmmmmk.",
+        ".....kMMMMkMMMMMk.",
+        "......kwwk..kwwk..",
+        "......kzzzk.kzzzk."
+      ],
+      "runA": [
+        "......kmmmMmmmmk..",
+        ".....kmmmmMmmmmmk.",
+        "....kmmmmk.kMmmmk.",
+        "...kmmmmk...kMmmmk",
+        "...kMMMk.....kMMMk",
+        "..kwwk.......kwwk.",
+        "..kzzk.......kzzzk"
+      ],
+      "runB": [
+        "......kmmmMmmmmk..",
+        "......kmmmMmmmmk..",
+        "......kmmmmMmmmk..",
+        "......kmmmkMmmmk..",
+        "......kMMMkMMMMk..",
+        "......kwwk..kwwk..",
+        ".......kzzkkzzzk.."
+      ],
+      "jump": [
+        "......kmmmMmmmmk..",
+        ".....kmmmmMmmmmmk.",
+        ".....kmmmmMmmmmmk.",
+        "......kMMMkMMMMk..",
+        ".......kwwkwwk....",
+        ".......kzzkzzk....",
+        ".................."
+      ]
+    }
+  },
+  "anims": {
+    "idle": {
+      "rate": 30,
+      "frames": [
+        {},
+        {
+          "headDy": 1
+        }
+      ]
+    },
+    "run": {
+      "rate": 7,
+      "frames": [
+        {
+          "legs": "runA"
+        },
+        {
+          "legs": "runB",
+          "dy": -1
+        },
+        {
+          "legs": "runA"
+        },
+        {
+          "legs": "runB",
+          "dy": -1
+        }
+      ]
+    },
+    "jump": {
+      "rate": 60,
+      "frames": [
+        {
+          "legs": "jump"
+        }
+      ]
+    },
+    "swing": {
+      "rate": 60,
+      "frames": [
+        {
+          "torso": "swing"
+        }
+      ]
+    },
+    "hurt": {
+      "rate": 60,
+      "frames": [
+        {
+          "head": "hurt"
+        }
+      ]
+    }
+  },
+  "hands": {
+    "stand": [
+      15,
+      21
+    ],
+    "swing": [
+      16,
+      20
+    ]
+  }
+}

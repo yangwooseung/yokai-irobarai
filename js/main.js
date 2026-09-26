@@ -4,6 +4,7 @@ import { createInput } from './input.js';
 import { createPlayer, updatePlayer, meleeBox, hurtBox, hurtPlayer, drawPlayer } from './player.js';
 import { updateEnemy, drawEnemy } from './enemy.js';
 import { createStage, updateStage, drawStage } from './stage.js';
+import { buildSpriteSet } from './sprites.js';
 
 const STEP = 1000 / 60;
 const CHARACTER = 'miko';
@@ -153,10 +154,8 @@ function render(G) {
   drawPlayer(ctx, p, cam);
 
   const mb = meleeBox(p);
-  if (mb) {
-    ctx.fillStyle = 'rgba(255,255,255,.35)';
-    ctx.fillRect(Math.round(mb.x - cam), Math.round(mb.y), mb.w, mb.h);
-    ctx.strokeStyle = '#ffffff';
+  if (mb) { // 판정 확인용 옅은 테두리 (프로토타입)
+    ctx.strokeStyle = 'rgba(255,255,255,.25)';
     ctx.strokeRect(Math.round(mb.x - cam) + 0.5, Math.round(mb.y) + 0.5, mb.w - 1, mb.h - 1);
   }
 
@@ -185,7 +184,8 @@ async function boot() {
       loadJSON('data/yokai.json'),
       loadJSON('data/stages.json'),
     ]);
-    data = { characters, yokai, stages };
+    const spriteDef = await loadJSON(characters[CHARACTER].spriteSet);
+    data = { characters, yokai, stages, spriteDef };
   } catch (err) {
     msgEl.textContent = '데이터를 읽을 수 없습니다.\nindex.html 폴더에서 python -m http.server 8000 으로 실행해 주세요.\n(' + err.message + ')';
     return;
@@ -197,7 +197,7 @@ async function boot() {
   const def = data.characters[CHARACTER];
   const G = {
     data, stage, cam: 0,
-    player: createPlayer(def, 40, stage.groundY - def.h),
+    player: createPlayer(def, 40, stage.groundY - def.h, buildSpriteSet(data.spriteDef)),
     enemies: [], shots: [], effects: [],
     hitstop: 0, purified: 0,
   };

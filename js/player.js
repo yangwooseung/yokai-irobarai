@@ -1,9 +1,11 @@
 // 캐릭터 데이터(characters.json) 파라미터만으로 동작. 캐릭터별 분기 금지.
 import { VIEW_W } from './util.js';
+import { spriteFrame, drawSprite } from './sprites.js';
 
-export function createPlayer(def, x, y) {
+export function createPlayer(def, x, y, sprites) {
   return {
-    def, x, y, w: def.w, h: def.h,
+    def, sprites, x, y, w: def.w, h: def.h,
+    anim: 'idle', animT: 0,
     vx: 0, vy: 0, onGround: false,
     hp: def.hp, inv: 0,
     coyote: 0, jumpBuf: 0, jumpHeld: false,
@@ -62,7 +64,7 @@ export function updatePlayer(p, input, G) {
     p.shotT = r.interval;
     G.shots.push({
       kind: 'ofuda', owner: 'player',
-      x: p.x + p.w, y: p.y + 10, w: r.w, h: r.h,
+      x: p.x + p.w, y: p.y + r.muzzleY, w: r.w, h: r.h,
       vx: r.speed, vy: 0, power: r.power,
     });
   }
@@ -80,6 +82,14 @@ export function updatePlayer(p, input, G) {
   }
 
   if (p.inv > 0) p.inv--;
+
+  let anim = 'idle';
+  if (p.inv > d.invincible - 15) anim = 'hurt';
+  else if (p.meleeT > 0) anim = 'swing';
+  else if (!p.onGround) anim = 'jump';
+  else if (dir !== 0) anim = 'run';
+  if (anim !== p.anim) { p.anim = anim; p.animT = 0; }
+  else p.animT++;
 }
 
 function land(p, y) {
@@ -106,26 +116,47 @@ export function hurtPlayer(p) {
   return true;
 }
 
+const STICK = '#9a6a3a';
+const PAPER = '#ffffff';
+
+// 오하라이봉: 손에서 angle 방향으로 막대 + 끝에 종이 술
+function drawGohei(ctx, hx, hy, angle) {
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  ctx.fillStyle = STICK;
+  for (let i = 1; i <= 7; i++) ctx.fillRect(Math.round(hx + cos * i), Math.round(hy + sin * i), 1, 1);
+  const tx = Math.round(hx + cos * 8);
+  const ty = Math.round(hy + sin * 8);
+  ctx.fillStyle = PAPER;
+  ctx.fillRect(tx, ty - 1, 1, 3);
+  ctx.fillRect(tx + 1, ty + 1, 1, 3);
+  ctx.fillRect(tx - 1, ty + 1, 1, 2);
+}
+
 export function drawPlayer(ctx, p, cam) {
   if (p.inv > 0 && (p.inv >> 2) & 1) return; // 무적 중 깜빡임
-  const x = Math.round(p.x - cam);
-  const y = Math.round(p.y);
-  const w = p.w;
-  ctx.fillStyle = '#1a1a22'; // 포니테일
-  ctx.fillRect(x - 3, y - 2, 4, 8);
-  ctx.fillStyle = '#e02838'; // 리본
-  ctx.fillRect(x - 1, y - 2, 3, 2);
-  ctx.fillStyle = '#1a1a22'; // 머리
-  ctx.fillRect(x + 1, y, w - 2, 6);
-  ctx.fillStyle = '#f5d6b8'; // 얼굴
-  ctx.fillRect(x + 3, y + 5, w - 4, 5);
-  ctx.fillStyle = '#1a1a22'; // 눈
-  ctx.fillRect(x + w - 3, y + 6, 1, 2);
-  ctx.fillStyle = '#f4f4f4'; // 흰 상의
-  ctx.fillRect(x + 1, y + 10, w - 2, 7);
-  ctx.fillStyle = '#e02838'; // 빨간 하카마
-  ctx.fillRect(x + 1, y + 17, w - 2, 6);
-  ctx.fillStyle = '#f5d6b8'; // 발목
-  ctx.fillRect(x + 2, y + 23, 3, 1);
-  ctx.fillRect(x + w - 5, y + 23, 3, 1);
+  const set = p.sprites;
+  const frame = spriteFrame(set, p.anim, p.animT);
+  const o = drawSprite(ctx, set, frame, p.x - cam + p.w / 2, p.y + p.h);
+  const hx = o.left + frame.hand[0];
+  const hy = o.top + frame.hand[1];
+
+  if (p.meleeT <= 0) {
+    drawGohei(ctx, hx, hy, -Math.PI * 0.3);
+    return;
+  }
+  // 휘두르기: 위(-100°)에서 아래(+50°)로 쓸어내리는 궤적
+  const q = 1 - p.meleeT / p.def.melee.active;
+  const a0 = -Math.PI * 0.55;
+  const a1 = a0 + (Math.PI * 0.85) * Math.min(1, q * 1.6);
+  const rad = p.def.melee.range * 0.6;
+  ctx.fillStyle = 'rgba(255,255,255,.85)';
+  for (let a = a0; a <= a1; a += 0.08) {
+    ctx.fillRect(Math.round(hx + Math.cos(a) * rad), Math.round(hy + Math.sin(a) * rad), 2, 2);
+  }
+  ctx.fillStyle = 'rgba(255,255,255,.4)';
+  for (let a = a0; a <= a1; a += 0.1) {
+    ctx.fillRect(Math.round(hx + Math.cos(a) * (rad - 3)), Math.round(hy + Math.sin(a) * (rad - 3)), 1, 1);
+  }
+  drawGohei(ctx, hx, hy, a1);
 }
